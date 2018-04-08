@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Video extends Model
 {
     use SoftDeletes;
+
     protected $fillable = [
         'title',
         'description',
@@ -21,15 +22,16 @@ class Video extends Model
         'processed_percentage',
     ];
 
+    public function getRouteKeyName ()
+    {
+        return 'uid';
+    }
+
     public function channel ()
     {
         return $this->belongsTo(Channel::class);
     }
 
-    public function getRouteKey()
-    {
-        return 'uid';
-    }
     public function scopeLatestFirst ($query)
     {
         return $query->orderBy('created_at','desc');

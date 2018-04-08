@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VideoUpdateRequest;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -10,9 +11,8 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
-    public function show ($uid)
+    public function show (Video $video)
     {
-        $video = Video::where('uid',$uid)->first();
         return view('videos.show',[
             'video' => $video
         ]);
@@ -22,17 +22,15 @@ class VideoController extends Controller
         $videos = $request->user()->videos()->latestFirst()->paginate(10);
         return view('videos.index',['videos' => $videos]);
     }
-    public function edit ($uid)
+    public function edit (Video $video)
     {
-        $video = Video::where('uid',$uid)->first();
         $this->authorize('edit',$video);
         return view('videos.edit',[
             'video' => $video
         ]);
     }
-    public function update (Request $request,$uid)
+    public function update (VideoUpdateRequest $request,Video $video)
     {
-        $video = Video::where('uid',$uid)->first();
         $this->authorize('update',$video);
         $video->update([
             'title' => $request->title,
@@ -52,18 +50,21 @@ class VideoController extends Controller
         //arbort(500);
         $uid = uniqid(true);
         $channel = $request->user()->channels()->first();
-        $video = $channel->videos()->create([
+        $channel->videos()->create([
             'uid' => $uid,
             'title' => $request->title,
             'description' => $request->description,
             'visibility' => $request->visibility,
             'video_filename' => "$uid.$request->extension"
         ]);
-        return response()->json( $uid );
+        return response()->json( [
+            'data' => [
+                'uid' => $uid
+            ]
+        ] );
     }
-    public function delete ($uid)
+    public function delete (Video $video)
     {
-        $video = Video::where('uid',$uid)->first();
         $this->authorize('delete',$video);
         $video->delete();
         return redirect()->back();

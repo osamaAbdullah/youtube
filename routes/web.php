@@ -2,13 +2,13 @@
 
 Route::group(['middleware' => ['auth']],function (){
 
-    Route::GET('/upload', 'VideoUploadController@index');
-    Route::POST('/upload', 'VideoUploadController@store');
+    Route::GET('/video', 'VideoUploadController@index');
+    Route::POST('/video', 'VideoUploadController@store');
 
     Route::GET('/videos','VideoController@index');
     Route::GET('/videos/{video}/edit','VideoController@edit');
 
-    Route::POST('/videos/store', 'VideoController@store');
+    Route::POST('/video/store', 'VideoController@store');
     Route::DELETE('/videos/{video}/delete', 'VideoController@delete');
     Route::PUT('/videos/{video}/update', 'VideoController@update');
 
@@ -25,7 +25,7 @@ Route::get('videos/{video}/view','VideoController@getVideo');
 
 Route::GET('/channels/{channel}/show', 'HomeController@index');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');
 
 Route::get('/', 'PrimaryPagesController@index');
 
