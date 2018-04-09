@@ -11,12 +11,21 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
+    /**
+     * @param Video $video
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show (Video $video)
     {
         return view('videos.show',[
             'video' => $video
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index (Request $request)
     {
         $videos = $request->user()->videos()->latestFirst()->paginate(10);
@@ -29,7 +38,9 @@ class VideoController extends Controller
             'video' => $video
         ]);
     }
-    public function update (VideoUpdateRequest $request,Video $video)
+
+
+    public function update (VideoUpdateRequest $request, Video $video)
     {
         $this->authorize('update',$video);
         $video->update([

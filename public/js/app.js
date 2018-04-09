@@ -47264,8 +47264,10 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 /* 41 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
@@ -47300,6 +47302,107 @@ module.exports = function normalizeComponent (
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    methods: {
+        fileInputChange: function fileInputChange() {
+            var _this = this;
+
+            this.uploading = true;
+            this.failed = false;
+            this.file = document.getElementById('video').files[0];
+
+            this.storeVideo().then(function () {
+                var formData = new FormData();
+                formData.append('video', _this.file);
+                formData.append('uid', _this.uid);
+                axios({
+                    method: 'post',
+                    url: 'video',
+                    maxContentLength: 100000,
+                    data: formData,
+                    onUploadProgress: function onUploadProgress(e) {
+                        if (e.lengthComputable) {
+                            _this.updateProgress(e);
+                        }
+                    }
+                }).then(function () {
+                    _this.uploadComplete = true;
+                }).catch(function () {
+                    _this.failed = true;
+                });
+            });
+        },
+        storeVideo: function storeVideo() {
+            var _this2 = this;
+
+            return axios({
+                method: 'post',
+                url: 'video/store',
+                data: {
+                    title: this.title,
+                    description: this.description,
+                    visibility: this.visibility,
+                    extension: this.file.name.split('.').pop()
+                }
+            }).then(function (response) {
+                _this2.uid = response.data.data.uid;
+            }).catch(function () {
+                _this2.failed = true;
+            });
+        },
+        update: function update() {
+            var _this3 = this;
+
+            axios.put('videos/' + this.uid + '/update', {
+                title: this.title,
+                description: this.description,
+                visibility: this.visibility
+            }).then(function () {
+                _this3.saveStatus = 'Changes saved';
+                setTimeout(function () {
+                    _this3.saveStatus = null;
+                }, 3000);
+            }).catch(function () {
+                _this3.failed = true;
+            });
+        },
+        updateProgress: function updateProgress(e) {
+            e.percent = e.loaded / e.total * 100;
+            this.fileProgress = e.percent;
+        }
+    },
+    data: function data() {
+        return {
+            uploading: false,
+            uploadComplete: false,
+            failed: false,
+            title: 'untitled',
+            description: null,
+            visibility: 'private',
+            uid: null,
+            saveStatus: null,
+            fileProgress: 0
+        };
+    },
+    mounted: function mounted() {
+        var _this4 = this;
+
+        window.onbeforeunload = function () {
+            if (_this4.uploading && !_this4.uploadComplete && !_this4.failed) return 'ok';
+        };
+    }
+});
 
 /***/ }),
 /* 42 */
@@ -47323,8 +47426,87 @@ var render = function() {
                 })
               : _vm._e(),
             _vm._v(" "),
+            _vm.failed
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "alert alert-danger",
+                    attrs: { role: "alert" }
+                  },
+                  [_vm._v("Something went wrong. please try again")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.uploadComplete &&
+            _vm.uploading &&
+            !_vm.uploadComplete &&
+            !_vm.failed
+              ? _c(
+                  "div",
+                  { staticClass: "alert alert-info", attrs: { role: "alert" } },
+                  [
+                    _vm._v("Video will be available at "),
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href: _vm.$root.url + "videos/" + _vm.uid,
+                          target: "_blank"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(_vm.$root.url) + "/videos/" + _vm._s(_vm.uid)
+                        )
+                      ]
+                    )
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.uploadComplete
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "alert alert-success",
+                    attrs: { role: "alert" }
+                  },
+                  [
+                    _vm._v(
+                      "Upload complete. Video is now is processing\n                        "
+                    ),
+                    _c(
+                      "a",
+                      { attrs: { href: _vm.$root.url + "videos/" + _vm.uid } },
+                      [_vm._v(" Go to your video")]
+                    ),
+                    _vm._v(".")
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
             _vm.uploading && !_vm.failed
               ? _c("div", { attrs: { id: "video-form" } }, [
+                  _c("br"),
+                  _vm._v(" "),
+                  !_vm.uploadComplete
+                    ? _c("div", { staticClass: "progress" }, [
+                        _c("div", {
+                          staticClass:
+                            "progress-bar progress-bar-striped bg-success",
+                          style: { width: _vm.fileProgress + "%" },
+                          attrs: {
+                            role: "progressbar",
+                            "aria-valuenow": "25",
+                            "aria-valuemin": "0",
+                            "aria-valuemax": "100"
+                          }
+                        })
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", [_vm._v("Title")]),
                     _vm._v(" "),

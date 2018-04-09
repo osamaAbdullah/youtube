@@ -6,7 +6,17 @@
                     <div class="card-header">Upload</div>
                     <div class="card-body">
                         <input type="file" name="video" id="video" @change="fileInputChange" v-if="!uploading">
+                        <div class="alert alert-danger" role="alert" v-if="failed">Something went wrong. please try again</div>
+                        <div class="alert alert-info" role="alert" v-if="!uploadComplete && uploading && !uploadComplete && !failed">Video will be available at <a
+                                :href="$root.url + 'videos/' + uid" target="_blank">{{ $root.url }}/videos/{{ uid }}</a></div>
+                        <div class="alert alert-success" role="alert" v-if="uploadComplete">Upload complete. Video is now is processing
+                            <a :href="$root.url + 'videos/' + uid"> Go to your video</a>.</div>
                         <div id="video-form" v-if="uploading && !failed">
+                            <br>
+                            <div class="progress" v-if="!uploadComplete">
+                                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" v-bind:style="{ width: fileProgress + '%' }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <br>
                             <div class="form-group">
                                 <label>Title</label>
                                 <input type="text" class="form-control" v-model="title">
@@ -49,17 +59,16 @@
                       method: 'post',
                       url: 'video',
                       maxContentLength: 100000,
-                      transformRequest: formData,
+                      data: formData,
                       onUploadProgress: (e) => {
                           if (e.lengthComputable) {
-                              console.log(e.loaded);
+                              this.updateProgress(e);
                           }
                       },
-
-                  }).then( response => {
-
-                  }).catch( error => {
-
+                  }).then( () => {
+                      this.uploadComplete = true ;
+                  }).catch( () => {
+                      this.failed = true ;
                   });
               });
 
@@ -76,8 +85,8 @@
                                 }
                             }).then( response => {
                                 this.uid = response.data.data.uid ;
-                            }).catch( error => {
-                                alert(error);
+                            }).catch( () => {
+                                this.failed = true ;
                             });
             },
             update () {
@@ -85,14 +94,18 @@
                   title: this.title,
                   description: this.description,
                   visibility: this.visibility
-              }).then( response => {
+              }).then( () => {
                   this.saveStatus = 'Changes saved' ;
                   setTimeout(() => {
                       this.saveStatus = null ;
                   }, 3000);
-              }).catch( error => {
-                  alert(error);
+              }).catch( () => {
+                  this.failed = true ;
               });
+            },
+            updateProgress (e) {
+              e.percent = (e.loaded / e.total) * 100 ;
+              this.fileProgress = e.percent ;
             }
 
         },
@@ -106,7 +119,14 @@
                 visibility: 'private',
                 uid: null,
                 saveStatus: null,
+                fileProgress: 0,
             };
-        }
+        },
+        mounted () {
+            window.onbeforeunload = () => {
+                if (this.uploading && !this.uploadComplete && !this.failed)
+                return 'ok';
+            }
+        },
     }
 </script>
