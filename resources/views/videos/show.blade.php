@@ -23,11 +23,9 @@
                     <div class="card-body">
                        <h4>{{ $video->title }}</h4>
                         <div class="float-right">
-
-
-                            video views
-
-
+                            <div class="video__views">
+                                {{ $video->viewCount() . ' ' . str_plural('view', $video->viewCount()) }}
+                            </div>
                         </div>
                         <div class="media">
                             <div class="media-left">

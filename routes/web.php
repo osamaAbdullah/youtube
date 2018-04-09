@@ -27,6 +27,11 @@ Route::get('videos/{video}/view','VideoController@getVideo');
 
 Route::GET('/channels/{channel}/show', 'HomeController@index');
 
+Route::GET('/search', 'SearchController@index');
+
+
+
+
 Route::get('/home', 'HomeController@index');
 
 Route::get('/', 'PrimaryPagesController@index');

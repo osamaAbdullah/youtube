@@ -1773,6 +1773,11 @@ video::-webkit-media-text-track-display {
   color: whitesmoke;
 }
 
+.video__views {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
 /*!
  * Bootstrap v4.0.0 (https://getbootstrap.com)
  * Copyright 2011-2018 The Bootstrap Authors
