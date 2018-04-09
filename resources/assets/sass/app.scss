@@ -6,7 +6,10 @@
 @import "variables";
 
 //video js
-@import "videojs";
+@import "custom/videojs";
+
+//video
+@import "custom/video";
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';

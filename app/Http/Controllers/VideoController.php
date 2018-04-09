@@ -11,14 +11,12 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
-
     public function show (Video $video)
     {
         return view('videos.show',[
             'video' => $video
         ]);
     }
-
 
     public function index (Request $request)
     {
@@ -33,7 +31,6 @@ class VideoController extends Controller
             'video' => $video
         ]);
     }
-
 
     public function update (VideoUpdateRequest $request, Video $video)
     {
@@ -51,6 +48,7 @@ class VideoController extends Controller
         Session::flash('success', 'The Channel was successfully updated');
         return redirect()->back();
     }
+
     public function store (Request $request)
     {
         //arbort(500);
@@ -69,12 +67,14 @@ class VideoController extends Controller
             ]
         ] );
     }
+
     public function delete (Video $video)
     {
         $this->authorize('delete',$video);
         $video->delete();
         return redirect()->back();
     }
+
     public function getImage ($image)
     {
         $image_get = Storage::disk('image')->get($image);

@@ -51,14 +51,17 @@ class Video extends Model
     {
         return $this->visibility === 'private';
     }
+
     public function ownedByUser (User $user)
     {
         return $this->channel->user->id === $user->id ;
     }
+
     public function isProcessed ()
     {
         return $this->processed ;
     }
+
     public function canBeAccessed ($user = null)
     {
         if(!$user && $this->isPrivate() ) {
@@ -68,5 +71,15 @@ class Video extends Model
             return false ;
         }
         return true ;
+    }
+
+    public function views ()
+    {
+        return $this->hasMany(VideoView::class);
+    }
+
+    public function viewCount ()
+    {
+        return $this->views->count();
     }
 }

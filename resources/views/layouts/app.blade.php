@@ -16,7 +16,7 @@
     </script>
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
+    <!-- Scripts with this defer attribute those javascript code in this tag will not be shared prevent inheritance -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->

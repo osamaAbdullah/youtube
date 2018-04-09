@@ -15,13 +15,13 @@
                                         <img src="{{ url('images/' . 'default.png' . '/view') }}" alt="thumbnail" class="img-responsive">
                                     </div>
                                     <div class="col-sm-9">
-                                        <a href="{{ url('videos/' . $video->id . '/show') }}">{{$video->title}}</a>
+                                        <a href="{{ url('videos/' . $video->uid . '/show') }}">{{$video->title}}</a>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <p class="text-muted">
                                                     <span>{{ $video->created_at->toDateTimeString() }}</span>
                                                 </p>
-                                                <form action="{{ url('videos/' . $video->id . '/delete') }}" method="post">
+                                                <form action="{{ url('videos/' . $video->uid . '/delete') }}" method="post">
                                                     <button type="submit" class="btn btn-default">Delete</button>
                                                     {{csrf_field()}}
                                                     {{method_field('DELETE')}}

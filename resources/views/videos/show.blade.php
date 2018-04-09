@@ -1,20 +1,5 @@
 @extends('layouts.app')
-@section('styles')
-    .video-placeholder {
-    position: relative;
-    background-color: #111;
-    padding-top: 56.25%;
-    width: 100%;
-    max-width: 100%;
-    }
-    .video-placeholder__header {
-    font-size: 14px;
-    position: absolute;
-    top: 50%;
-    transform: translateX(-50%);
-    left: 50%;
-    }
-@endsection
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
