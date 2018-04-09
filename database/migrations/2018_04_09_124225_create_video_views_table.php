@@ -17,7 +17,7 @@ class CreateVideoViewsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('video_id')->unsigned();
-            $table->integer('ip_address')->nullable();
+            $table->string('ip_address')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

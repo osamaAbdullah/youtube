@@ -20,6 +20,8 @@ Route::group(['middleware' => ['auth']],function (){
 
 Route::GET('/videos/{video}/show', 'VideoController@show');
 
+Route::POST('/videos/{video}/view', 'VideoViewController@store');
+
 Route::get('images/{image}/view','VideoController@getImage');
 Route::get('videos/{video}/view','VideoController@getVideo');
 

@@ -11,16 +11,47 @@
     {
         data () {
             return {
-                player: null
+                player: null,
+                duration: 0,
             }
         },
         mounted () {
             this.payer = videojs('video') ;
+            this.payer.on('loadedmetadata', () => {
+                this.duration = Math.round(this.payer.duration()) ;
+            });
+            setInterval(() => {
+                if (this.hasHitQuotaView()) {
+                    this.storeView();
+                }
+            }, 1000);
         },
         props: {
             videoId: null,
             videoUrl: null,
-            thumbnailUrl: null
+            thumbnailUrl: null,
+            storeViewUrl: null,
+        },
+        methods: {
+            hasHitQuotaView () {
+                if (!this.duration) {
+                    return false ;
+                }
+                return Math.round(this.payer.currentTime()) === Math.round((10 * this.duration ) / 100 ) ;
+            },
+            storeView () {
+                axios({
+                    method: 'post',
+                    url: this.storeViewUrl,
+                    data: {
+
+                    },
+                }).then(() => {
+
+                }).catch(() =>{
+
+                });
+            },
         }
     }
 </script>
