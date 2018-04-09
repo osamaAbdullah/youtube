@@ -57,7 +57,7 @@
                   formData.append('uid', this.uid);
                   axios({
                       method: 'post',
-                      url: 'video',
+                      url: 'http://localhost:8080/projects/laravel/main/public/video/upload',
                       maxContentLength: 100000,
                       data: formData,
                       onUploadProgress: (e) => {
@@ -76,7 +76,7 @@
             storeVideo () {
                 return axios({
                                 method: 'post',
-                                url:    'video/store',
+                                url:    'http://localhost:8080/projects/laravel/main/public/video/store',
                                 data: {
                                     title:       this.title,
                                     description: this.description,
@@ -90,7 +90,7 @@
                             });
             },
             update () {
-              axios.put('videos/' + this.uid + '/update', {
+              axios.put('http://localhost:8080/projects/laravel/main/public/videos/' + this.uid + '/update', {
                   title: this.title,
                   description: this.description,
                   visibility: this.visibility

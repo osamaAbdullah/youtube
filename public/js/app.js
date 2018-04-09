@@ -47328,7 +47328,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 formData.append('uid', _this.uid);
                 axios({
                     method: 'post',
-                    url: 'video',
+                    url: 'http://localhost:8080/projects/laravel/main/public/video/upload',
                     maxContentLength: 100000,
                     data: formData,
                     onUploadProgress: function onUploadProgress(e) {
@@ -47348,7 +47348,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             return axios({
                 method: 'post',
-                url: 'video/store',
+                url: 'http://localhost:8080/projects/laravel/main/public/video/store',
                 data: {
                     title: this.title,
                     description: this.description,
@@ -47364,7 +47364,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         update: function update() {
             var _this3 = this;
 
-            axios.put('videos/' + this.uid + '/update', {
+            axios.put('http://localhost:8080/projects/laravel/main/public/videos/' + this.uid + '/update', {
                 title: this.title,
                 description: this.description,
                 visibility: this.visibility
