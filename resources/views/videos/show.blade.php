@@ -26,7 +26,9 @@
                             <div class="video__views">
                                 {{ $video->viewCount() . ' ' . str_plural('view', $video->viewCount()) }}
                             </div>
-                            <video-voting video-uid="{{ $video->uid }}" get-votes-url="{{ url('videos/' . $video->uid . '/votes') }}"></video-voting>
+                            @if($video->votesAllowed())
+                                <video-voting video-uid="{{ $video->uid }}" get-votes-url="{{ url('videos/' . $video->uid . '/votes') }}"></video-voting>
+                            @endif
                         </div>
                         <div class="media">
                             <div class="media-left">
