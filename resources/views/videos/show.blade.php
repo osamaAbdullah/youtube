@@ -18,7 +18,6 @@
                             </div>
                         </div>
                 @endif
-
                 <div class="card">
                     <div class="card-body">
                        <h4>{{ $video->title }}</h4>

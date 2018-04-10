@@ -22,6 +22,8 @@ Route::group(['middleware' => ['auth']],function (){
 //change this you may send custom routes a props to the vue component
 Route::GET('/videos/{video}/votes', 'VideoVoteController@show');
 
+Route::GET('/videos/{video}/comments', 'VideoCommentController@index');
+
 Route::GET('/videos/{video}/show', 'VideoController@show');
 
 Route::POST('/videos/{video}/view', 'VideoViewController@store');

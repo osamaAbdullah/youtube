@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\Orderable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
 class Video extends Model
 {
-    //laravel trades
-    use SoftDeletes, Searchable;
+    //laravel traits
+    use SoftDeletes, Searchable, Orderable;
 
     protected $fillable = [
         'title',
@@ -32,11 +33,6 @@ class Video extends Model
     public function channel ()
     {
         return $this->belongsTo(Channel::class);
-    }
-
-    public function scopeLatestFirst ($query)
-    {
-        return $query->orderBy('created_at','desc');
     }
 
     public function votesAllowed ()
@@ -106,5 +102,13 @@ class Video extends Model
     public function voteFromUser (User $user)
     {
         return $this->votes()->where('user_id', $user->id)->first();
+    }
+
+    public function comments ()
+    {
+        //you can use both of this they have the same meaning as ( IS NULL ) in mysql
+        //return $this->morphMany(Comment::class, 'commentable')->whereNull('reply_id');
+        return $this->morphMany(Comment::class, 'commentable')->where('reply_id', null);
+
     }
 }
