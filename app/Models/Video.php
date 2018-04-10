@@ -84,4 +84,10 @@ class Video extends Model
     {
         return $this->views->count();
     }
+
+    public function votes ()
+    {
+        return $this->morphedByMany(Vote::class, 'voteable');
+    }
+
 }
