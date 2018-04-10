@@ -19,5 +19,8 @@
         "popper.js": "^1.12",
         "video.js": "^6.7.3",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "font-awesome": "^4.7.0"
     }
 }

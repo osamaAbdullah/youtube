@@ -15,8 +15,10 @@ Route::group(['middleware' => ['auth']],function (){
     Route::GET('/channels/{channel}/edit', 'ChannelSettingsController@edit');
     Route::PUT('/channels/{channel}/update', 'ChannelSettingsController@update');
 
-
+    Route::POST('/videos/{video}/vote/store', 'VideoVoteController@store');
+    Route::DELETE('/videos/{video}/vote/delete', 'VideoVoteController@delete');
 });
+Route::GET('/videos/{video}/votes', 'VideoVoteController@show');
 
 Route::GET('/videos/{video}/show', 'VideoController@show');
 

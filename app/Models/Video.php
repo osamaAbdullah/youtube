@@ -87,7 +87,24 @@ class Video extends Model
 
     public function votes ()
     {
-        return $this->morphedByMany(Vote::class, 'voteable');
+        return $this->morphMany('App\Models\Vote', 'voteable');
     }
 
+    // if you use votes on any other model like you better move,
+    // this to a trade to apply DRY don't repeat your self
+    public function upVotes ()
+    {
+        return $this->votes()->where('type', '=','up')->get();
+    }
+
+    public function downVotes ()
+    {
+        return $this->votes()->where('type', '=','down')->get();
+    }
+    // i mean this two witch are between comments
+
+    public function voteFromUser (User $user)
+    {
+        return $this->votes()->where('user_id', $user->id)->first();
+    }
 }

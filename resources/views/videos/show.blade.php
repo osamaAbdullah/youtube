@@ -25,8 +25,8 @@
                         <div class="float-right">
                             <div class="video__views">
                                 {{ $video->viewCount() . ' ' . str_plural('view', $video->viewCount()) }}
-                                <video-voting></video-voting>
                             </div>
+                            <video-voting video-uid="{{ $video->uid }}" get-votes-url="{{ url('videos/' . $video->uid . '/votes') }}"></video-voting>
                         </div>
                         <div class="media">
                             <div class="media-left">

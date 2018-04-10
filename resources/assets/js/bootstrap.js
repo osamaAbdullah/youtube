@@ -12,6 +12,8 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
+    require('./custom/fontawesome');
+
 } catch (e) {}
 
 /**

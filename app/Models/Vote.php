@@ -13,7 +13,7 @@ class Vote extends Model
 
     public function voteable ()
     {
-        $this->morphTo();
+        return $this->morphTo();
     }
 
     public function user ()
