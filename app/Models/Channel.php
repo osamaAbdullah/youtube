@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use function Symfony\Component\Debug\Tests\testHeader;
 
 class Channel extends Model
 {
@@ -37,5 +38,13 @@ class Channel extends Model
     public function subscriptionsCount ()
     {
         return $this->subscriptions()->count();
+    }
+    public function totalVideoViews ()
+    {
+//        $count = 0;
+//        foreach ($this->videos as $video) {
+//            $count += $video->viewCount();
+//        }
+        return $this->hasManyThrough(VideoView::class, Video::class)->count();
     }
 }

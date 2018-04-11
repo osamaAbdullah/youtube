@@ -39,7 +39,7 @@ Route::POST('/videos/{video}/view', 'VideoViewController@store');
 Route::get('images/{image}/view','VideoController@getImage');
 Route::get('videos/{video}/view','VideoController@getVideo');
 
-Route::GET('/channels/{channel}/show', 'HomeController@index');
+Route::GET('/channels/{channel}/show', 'ChannelController@show');
 
 Route::GET('/search', 'SearchController@index');
 
