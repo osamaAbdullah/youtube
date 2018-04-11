@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-sm-5">
         <a href="{{ url('videos/' . $video->uid ) }}">
-            <img src="{{ url('images/' . 'default.png' . '/view') }}" alt="{{ $video->title }} thumbnail" class="img-responsive">
+            <img src="{{ url('images/' . $video->thumbnail . '/view') }}" alt="{{ $video->title }} thumbnail" class="img-responsive">
         </a>
     </div>
     <div class="col-sm-7">

@@ -72,7 +72,8 @@ class RegisterController extends Controller
 
         $user->channels()->create([
             'name' => $data['channel_name'],
-            'slug' => uniqid(true)
+            'slug' => uniqid(true),
+            'image' => 'defaultChannelImage.png'
         ]);
         return $user;
     }

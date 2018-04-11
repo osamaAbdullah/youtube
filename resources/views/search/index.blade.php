@@ -20,7 +20,7 @@
                                     <div class="media-body">
                                         <a href="{{ url('channel/' . $channel->slug) }}" class="media-heading">{{ $channel->name }}</a>
                                         <ul class="list-inline">
-                                            <li class="list-inline-item">{{ $channel->subscriptionCount() . ' ' . str_plural($channel->subscriptionCount(), 'Subscriber') }} </li>
+                                            <li class="list-inline-item">{{ $channel->subscriptionsCount() . ' ' . str_plural('Subscriber', $channel->subscriptionsCount()) }} </li>
                                         </ul>
                                     </div>
                                 </div>

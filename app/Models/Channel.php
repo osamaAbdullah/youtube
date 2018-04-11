@@ -21,6 +21,7 @@ class Channel extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function videos ()
     {
         return $this->hasMany(Video::class);
@@ -30,14 +31,17 @@ class Channel extends Model
     {
         return 'slug';
     }
+
     public function subscriptions ()
     {
         return $this->hasMany(Subscription::class);
     }
+
     public function subscriptionsCount ()
     {
         return $this->subscriptions()->count();
     }
+
     public function totalVideoViews ()
     {
 //        $count = 0;
@@ -46,4 +50,5 @@ class Channel extends Model
 //        }
         return $this->hasManyThrough(VideoView::class, Video::class)->count();
     }
+
 }

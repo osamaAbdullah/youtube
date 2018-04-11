@@ -14,7 +14,7 @@ class searchController extends Controller
         if (!$request->term) {
             return redirect()->back();
         }
-        $channels = Channel::search($request->term)->get();
+        $channels = Channel::search('osama', null)->get();
         $videos = Video::search($request->term)->where('public', true)->get();
 
         return view('search.index',[

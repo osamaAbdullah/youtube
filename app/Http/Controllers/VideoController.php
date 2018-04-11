@@ -60,6 +60,7 @@ class VideoController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'visibility' => $request->visibility,
+            'thumbnail' => 'defaultThumbnail.png',
             'video_filename' => "$uid.$request->extension",
             'processed' => 1 // because those service are not free so im not using them
         ]);

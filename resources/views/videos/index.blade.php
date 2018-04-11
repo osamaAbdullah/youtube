@@ -12,7 +12,7 @@
                             <div class="card card-block bg-light">
                                 <div class="row">
                                     <div class="col-sm-5">
-                                        <img src="{{ url('images/' . 'default.png' . '/view') }}" alt="thumbnail" class="img-responsive">
+                                        <img src="{{ url('images/' . $video->thumbnail . '/view') }}" alt="thumbnail" class="img-responsive">
                                     </div>
                                     <div class="col-sm-7">
                                         <a href="{{ url('videos/' . $video->uid . '/show') }}">{{$video->title}}</a>

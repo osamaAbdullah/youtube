@@ -130,6 +130,7 @@ class Video extends Model
     {
         return $query->where('processed', true);
     }
+
     public function scopePublic ($query)
     {
         return $query->where('visibility', 'public');
