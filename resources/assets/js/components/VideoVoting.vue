@@ -1,10 +1,10 @@
 <template>
     <div class="video__voting">
         <a href="#" @click.prevent="vote('up')" class="video__voting-button" v-bind:class="{'video__voting-button--voted': userVote === 'up' }">
-            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+            <!--<i class="fa fa-thumbs-up" aria-hidden="true"></i>-->
         </a> {{ up }} &nbsp;
         <a href="#" @click.prevent="vote('down')" class="video__voting-button" v-bind:class="{'video__voting-button--voted': userVote === 'down' }">
-            <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+            <!--<i class="fa fa-thumbs-down" aria-hidden="true"></i>-->
         </a> {{ down }}
     </div>
 </template>

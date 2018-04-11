@@ -1,34 +1,50 @@
 <template>
     <div>
         <p>{{ comments.length === 1 ? comments.length + ' comment' : comments.length + ' comments' }}</p>
-        <div class="video-comment clear-fix" v-if="">
-
+        <div class="video-comment clear-fix" v-if="$root.authenticated">
+            <textarea v-model="body" placeholder="Say something" class="form-control video-comment-input" ></textarea>
+            <div class="float-right">
+                <button type="submit" class="btn btn-default" @click.prevent="createComment">Post</button>
+            </div>
         </div>
         <ul class="media-list">
             <li class="media" v-for="comment in comments">
-                <div class="col-sm-1">
                     <div class="media-left">
                         <a :href="comment.channel.data.slug">
                             <img :src="comment.channel.data.image" :alt="comment.channel.data.name" class="media-object">
                         </a>
                     </div>
-                </div>
-               <div class="col-sm-11">
-                   <div class="media-body">
-                       <a :href="comment.channel.data.slug">{{ comment.channel.data.name }}</a>&nbsp; {{ comment.created_at_human }}
-                       <p>{{ comment.body }} </p>
-                       <div class="media" v-for="reply in comment.replies.data">
-                           <div class="col-sm-1">
-                               <div class="media-left">
-                                   <a :href="reply.channel.data.slug">
-                                       <img :src="reply.channel.data.image" :alt="reply.channel.data.name" class="media-object">
-                                   </a>
-                               </div>
-                               <div class="media-body">
-                                   <a :href="reply.channel.data.slug">{{ reply.channel.data.name }}</a>&nbsp; {{ reply.created_at_human }}
-                                   <p>{{ reply.body }} </p>
-                               </div>
-                           </div>
+               <div class="media-body">
+                   <a :href="comment.channel.data.slug">{{ comment.channel.data.name }}</a>&nbsp; {{ comment.created_at_human }}
+                   <p>{{ comment.body }} </p>
+                   <ul class="list-inline">
+                       <li v-if="$root.authenticated" class="list-inline-item">
+                           <a class="btn btn-sm btn-default " href="#" @click.prevent="toggleReplyForm(comment.id)">{{ replyFormVisible === comment.id ? 'Cancel' : 'Reply' }}</a>
+                       </li>
+                       <li class="list-inline-item">
+                           <a href="#" @click.prevent="deleteComment(comment.id)" v-if="$root.id === comment.user_id" class="btn btn-sm btn-default">Delete</a>
+                       </li>
+                   </ul>
+                   <div class="video-comment clear" v-if="replyFormVisible === comment.id ">
+                       <textarea v-model="replyBody" class="form-control video-comment-input" placeholder="Say something"></textarea>
+                       <div class="float-right">
+                           <button type="submit" class="btn btn-default" @click.prevent="createReply(comment.id)">Reply</button>
+                       </div>
+                   </div>
+                   <div class="media" v-for="reply in comment.replies.data">
+                       <div class="media-left">
+                           <a :href="reply.channel.data.slug">
+                               <img :src="reply.channel.data.image" :alt="reply.channel.data.name" class="media-object">
+                           </a>
+                       </div>
+                       <div class="media-body">
+                           <a :href="reply.channel.data.slug">{{ reply.channel.data.name }}</a>&nbsp; {{ reply.created_at_human }}
+                           <p>{{ reply.body }} </p>
+                           <ul class="list-inline">
+                               <li>
+                                   <a href="#" @click.prevent="deleteComment(comment.id)" v-if="$root.id === comment.user_id" class="btn btn-sm btn-default">Delete</a>
+                               </li>
+                           </ul>
                        </div>
                    </div>
                </div>
@@ -46,6 +62,9 @@
         data () {
             return {
                 comments: [],
+                body: null,
+                replyBody: null,
+                replyFormVisible: null,
             };
         },
         methods: {
@@ -57,6 +76,75 @@
                       alert(error);
               });
             },
+            createComment ()
+            {
+                if (this.body !== null &&  this.body !== '')
+                axios.post(this.getCommentsUrl.replace('comments', 'comment/store'), {
+                    body: this.body,
+                }).then(response => {
+                    this.comments.unshift(response.data.data);
+                    this.body = null ;
+                }).catch();
+            },
+            createReply (commentId)
+            {
+                if (this.replyBody !== null &&  this.replyBody !== '')
+                    axios.post(this.getCommentsUrl.replace('comments', 'comment/store'), {
+                        body: this.replyBody,
+                        reply_id: commentId,
+                    }).then(response => {
+                        this.comments.map((comment, index) => {
+                           if (comment.id === commentId) {
+                               this.comments[index].replies.data.push(response.data.data);
+                           }
+                        });
+                        this.replyBody = null ;
+                        this.replyFormVisible = null ;
+                    }).catch();
+            },
+            toggleReplyForm (commentId)
+            {
+                this.replyBody = null ;
+                if (this.replyFormVisible === commentId) {
+                    this.replyFormVisible = null ;
+                    return null;
+                }
+                this.replyFormVisible = commentId ;
+            },
+            deleteComment (commentId)
+            {
+                if (!confirm('Are you sure you want to delete this comment')) {
+                    return null;
+                }
+                this.deleteById(commentId);
+                //this.deleteInBackEnd(commentId);
+            },
+            deleteById (commentId) {
+                this.comments.map((comment, index) => {
+                    if (comment.id === commentId) {
+                        this.comments.splice(index, 1);
+                        return null;
+                    }
+                    // comment.replies.data.map((comment, replyIndex) => {
+                    //     if (comment.id === commentId) {
+                    //         this.comments[index].replies.data.splice(replyIndex, 1);
+                    //         return null;
+                    //     }
+                    // });
+                });
+            },
+            deleteInBackEnd (commentId)
+            {
+                axios({
+                    method: 'delete',
+                    url: this.getCommentsUrl + '/' + commentId + '/delete',
+                }).then(response => {
+
+                }).catch(error => {
+                    alert('Something went wrong while deleting comment in the backend');
+                    console(error);
+                });
+            }
         },
         created () {
             this.getComments();

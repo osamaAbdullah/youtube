@@ -23,5 +23,5 @@ Vue.component('video-comments', require('./components/VideoComments'));
 
 const app = new Vue({
     el: '#app',
-    data: window.youtube
+    data: window.youtube,
 });

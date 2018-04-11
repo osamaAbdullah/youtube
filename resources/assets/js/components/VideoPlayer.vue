@@ -43,14 +43,20 @@
                 axios({
                     method: 'post',
                     url: this.storeViewUrl,
-                    data: {
-
-                    },
                 }).then(() => {
 
-                }).catch(() =>{
-
+                }).catch((error) =>{
+                    alert('Something went wrong while saving the view');
+                    console.log(error)
                 });
+                //another way of doing this
+                // axios.post(this.storeViewUrl)
+                //     .then(() => {
+                //
+                //     }).catch((error) =>{
+                //     alert('Something went wrong while saving the view');
+                //     console.log(error)
+                // });
             },
         }
     }

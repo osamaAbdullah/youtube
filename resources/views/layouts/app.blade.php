@@ -10,8 +10,8 @@
     <script>
         window.youtube = {
             url: '{{ config('app.url') }}',
-            id: {{ Auth::check() ? Auth::user()->id : null }},
-            authenticated: {{ Auth::check() ? true : false }},
+            id: {{ Auth::check() ? Auth::user()->id : 'null' }},
+            authenticated: {{ Auth::check() ? 1 : 0 }},
         }
     </script>
     <title>{{ config('app.name', 'Laravel') }}</title>

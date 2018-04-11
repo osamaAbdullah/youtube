@@ -17,6 +17,9 @@ Route::group(['middleware' => ['auth']],function (){
 
     Route::POST('/videos/{video}/vote/store', 'VideoVoteController@store');
     Route::DELETE('/videos/{video}/vote/delete', 'VideoVoteController@delete');
+
+    Route::POST('videos/{video}/comment/store','VideoCommentController@store');
+    Route::DELETE('videos/{video}/comments/{comment}/delete', 'VideoCommentController@delete');
 });
 // the two other routes of votes are depending on this if you wanna
 //change this you may send custom routes a props to the vue component
