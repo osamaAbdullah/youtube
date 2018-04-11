@@ -34,4 +34,8 @@ class Channel extends Model
     {
         return $this->hasMany(Subscription::class);
     }
+    public function subscriptionsCount ()
+    {
+        return $this->subscriptions()->count();
+    }
 }

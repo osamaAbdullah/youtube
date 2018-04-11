@@ -47,4 +47,10 @@ class User extends Authenticatable
     {
         return (boolean) $this->subscriptions()->where('channel_id', $channel->id)->count();
     }
+    public function ownsChannel (Channel $channel)
+    {
+        //if user can have many channel this will work as well
+        //return (boolean) $this->channels()->where('id', $channel->id)->count() ;
+        return $this->id === $channel->user_id ;
+    }
 }
