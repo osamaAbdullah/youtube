@@ -42,7 +42,7 @@
                            <p>{{ reply.body }} </p>
                            <ul class="list-inline">
                                <li>
-                                   <a href="#" @click.prevent="deleteComment(comment.id)" v-if="$root.id === comment.user_id" class="btn btn-sm btn-default">Delete</a>
+                                   <a href="#" @click.prevent="deleteComment(reply.id)" v-if="$root.id === comment.user_id" class="btn btn-sm btn-default">Delete</a>
                                </li>
                            </ul>
                        </div>
@@ -117,7 +117,7 @@
                     return null;
                 }
                 this.deleteById(commentId);
-                //this.deleteInBackEnd(commentId);
+                this.deleteInBackEnd(commentId);
             },
             deleteById (commentId) {
                 this.comments.map((comment, index) => {
@@ -125,12 +125,12 @@
                         this.comments.splice(index, 1);
                         return null;
                     }
-                    // comment.replies.data.map((comment, replyIndex) => {
-                    //     if (comment.id === commentId) {
-                    //         this.comments[index].replies.data.splice(replyIndex, 1);
-                    //         return null;
-                    //     }
-                    // });
+                    comment.replies.data.map((comment, replyIndex) => {
+                        if (comment.id === commentId) {
+                            this.comments[index].replies.data.splice(replyIndex, 1);
+                            return null;
+                        }
+                    });
                 });
             },
             deleteInBackEnd (commentId)
