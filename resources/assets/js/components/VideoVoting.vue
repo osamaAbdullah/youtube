@@ -45,7 +45,7 @@
                 if (this.userVote === type) {
                     this[type]--;
                     this.userVote = null;
-                    this.deleteVote(type);
+                    this.deleteVote();
                     return null;
                 }
                 else if (this.userVote) {
@@ -55,9 +55,10 @@
                 this.userVote = type ;
                 this.createVote(type);
             },
-            deleteVote (type)
+            deleteVote ()
             {
                 axios.delete(this.getVotesUrl.replace('votes','vote/delete'));
+                console.log('deleted');
             },
             createVote (type)
             {
