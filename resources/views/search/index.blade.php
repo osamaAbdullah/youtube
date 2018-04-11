@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Results for "{{ Request::get('query') }}"</div>
+                    <div class="card-header">Results for "{{ Request::get('term') }}"</div>
                     @if($channels->count())
                         <h4>Channels</h4>
                         <div class="card card-block bg-light">
@@ -27,15 +27,16 @@
                             @endforeach
                         </div>
                     @endif
+                    <br>
                     @if($videos->count())
-                        <h4>Channels</h4>
+                        <h4>Videos</h4>
                         @foreach($videos as $video)
                             @include('layouts.partials._video_result', [
                             'video' => $video
                             ]);
                         @endforeach
                     @else
-                            <p>No videos found for "{{ Request::get('query') }}"</p>
+                            <p>No videos found for "{{ Request::get('term') }}"</p>
                     @endif
                     </div>
                 </div>

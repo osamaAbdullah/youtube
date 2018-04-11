@@ -10,11 +10,12 @@ class searchController extends Controller
 {
     public function index (Request $request)
     {
-        if (!$request->query) {
+
+        if (!$request->term) {
             return redirect()->back();
         }
-        $channels = Channel::search($request->query)->take(2)->get();
-        $videos = Video::search($request->query)->get();
+        $channels = Channel::search($request->term)->get();
+        $videos = Video::search($request->term)->where('public', true)->get();
 
         return view('search.index',[
             'channels' => $channels,

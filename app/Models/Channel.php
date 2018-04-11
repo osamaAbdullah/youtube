@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
-use function Symfony\Component\Debug\Tests\testHeader;
 
 class Channel extends Model
 {
