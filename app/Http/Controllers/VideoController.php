@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VideoCreateRequest;
 use App\Http\Requests\VideoUpdateRequest;
 use App\Models\Video;
 use Illuminate\Http\Request;
@@ -49,7 +50,7 @@ class VideoController extends Controller
         return redirect()->back();
     }
 
-    public function store (Request $request)
+    public function store (VideoCreateRequest $request)
     {
         //arbort(500);
         $uid = uniqid(true);

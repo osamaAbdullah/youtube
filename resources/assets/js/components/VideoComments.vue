@@ -17,8 +17,8 @@
                <div class="media-body">
                    <a :href="comment.channel.data.slug">{{ comment.channel.data.name }}</a>&nbsp; {{ comment.created_at_human }}
                    <p>{{ comment.body }} </p>
-                   <ul class="list-inline">
-                       <li v-if="$root.authenticated" class="list-inline-item">
+                   <ul class="list-inline" v-if="$root.authenticated">
+                       <li class="list-inline-item">
                            <a class="btn btn-sm btn-default " href="#" @click.prevent="toggleReplyForm(comment.id)">{{ replyFormVisible === comment.id ? 'Cancel' : 'Reply' }}</a>
                        </li>
                        <li class="list-inline-item">
@@ -41,8 +41,8 @@
                            <a :href="reply.channel.data.slug">{{ reply.channel.data.name }}</a>&nbsp; {{ reply.created_at_human }}
                            <p>{{ reply.body }} </p>
                            <ul class="list-inline">
-                               <li>
-                                   <a href="#" @click.prevent="deleteComment(reply.id)" v-if="$root.id === comment.user_id" class="btn btn-sm btn-default">Delete</a>
+                               <li v-if="$root.id === comment.user_id">
+                                   <a href="#" @click.prevent="deleteComment(reply.id)" class="btn btn-sm btn-default">Delete</a>
                                </li>
                            </ul>
                        </div>
@@ -96,6 +96,7 @@
                         this.comments.map((comment, index) => {
                            if (comment.id === commentId) {
                                this.comments[index].replies.data.push(response.data.data);
+                               return null;
                            }
                         });
                         this.replyBody = null ;

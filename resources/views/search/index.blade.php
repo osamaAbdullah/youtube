@@ -19,13 +19,16 @@
                                     </div>
                                     <div class="media-body">
                                         <a href="{{ url('channel/' . $channel->slug) }}" class="media-heading">{{ $channel->name }}</a>
-                                        subscription count
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">{{ $channel->subscriptionCount() . ' ' . str_plural($channel->subscriptionCount(), 'Subscriber') }} </li>
+                                        </ul>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     @endif
                     @if($videos->count())
+                        <h4>Channels</h4>
                         @foreach($videos as $video)
                             @include('layouts.partials._video_result', [
                             'video' => $video
