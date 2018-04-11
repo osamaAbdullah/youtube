@@ -14,19 +14,32 @@ class VideoPolicy
     {
         return $user->id === $video->channel->user_id ;
     }
+
     public function edit (User $user, Video $video)
     {
         return $user->id === $video->channel->user_id ;
     }
+
     public function delete (User $user, Video $video)
     {
         return $user->id === $video->channel->user_id ;
     }
+
     public function vote (User $user, Video $video)
     {
         if (!$video->canBeAccessed($user)) {
             return false;
         }
         return $video->votesAllowed();
+    }
+
+    public function comment (User $user, Video $video)
+    {
+        if (!$video->canBeAccessed($user)) {
+            return false;
+        } elseif (!$video->commentsAllowed()) {
+            return false;
+        }
+        return true;
     }
 }

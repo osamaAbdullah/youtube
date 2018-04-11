@@ -36,7 +36,7 @@
                                 </a>
                             </div>
                             <div class="media-body">
-                                <a href="{{url('channels/' . $video->channel->slug .'/show')}}" class="media-heading">{{ $video->channel->name }}</a>
+                                <a href="{{ url('channels/' . $video->channel->slug .'/show') }}" class="media-heading">{{ $video->channel->name }}</a>
                                 subscribe
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                 <div class="card">
                     <div class="card-body">
                         @if($video->commentsAllowed())
-                            comments
+                            <video-comments get-comments-url="{{ url('videos/' . $video->uid . '/comments') }}"></video-comments>
                         @else
                             <p>comments are disabled for this video</p>
                         @endif

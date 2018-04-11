@@ -9,6 +9,7 @@ class VideoCommentController extends Controller
 {
     public function index (Video $video)
     {
+        $this->authorize('comment', $video);
         return response()->json(
             fractal()->collection($video->comments()->latestFirst()->get())
                 ->parseIncludes(['channel', 'replies', 'replies.channel'])
