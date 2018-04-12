@@ -23,6 +23,7 @@ class Video extends Model
         'allow_votes',
         'allow_comments',
         'processed_percentage',
+        'thumbnail',
     ];
 
     public function toSearchableArray()

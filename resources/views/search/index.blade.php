@@ -13,12 +13,12 @@
                                 <br>
                                 <div class="media">
                                     <div class="media-left">
-                                        <a href="{{ url('channel/' . $channel->slug) }}">
+                                        <a href="{{ url('channels/' . $channel->slug . '/show') }}">
                                             <img src="{{ url('images/' . $channel->image . '/view') }}" alt="{{ $channel->name }} image" class="media-object">
                                         </a>
                                     </div>
                                     <div class="media-body">
-                                        <a href="{{ url('channel/' . $channel->slug) }}" class="media-heading">{{ $channel->name }}</a>
+                                        <a href="{{ url('channels/' . $channel->slug . '/show') }}" class="media-heading">{{ $channel->name }}</a>
                                         <ul class="list-inline">
                                             <li class="list-inline-item">{{ $channel->subscriptionsCount() . ' ' . str_plural('Subscriber', $channel->subscriptionsCount()) }} </li>
                                         </ul>

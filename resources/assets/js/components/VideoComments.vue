@@ -58,6 +58,7 @@
     {
         props: {
             getCommentsUrl: null,
+            uid: null,
         },
         data () {
             return {
@@ -154,7 +155,7 @@
                 });
             },
             listen () {
-                Echo.channel('videos' + '15ace85ac7573b')
+                Echo.channel('videos' + this.uid)
                     .listen('CreateNewComment', (response) => {
                         if (response.data.ReplyId === null ) {
                             this.comments.unshift(response.data);

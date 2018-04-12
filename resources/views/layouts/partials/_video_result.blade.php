@@ -1,10 +1,10 @@
 <div class="row">
-    <div class="col-sm-5">
+    <div class="col-lg-5">
         <a href="{{ url('videos/' . $video->uid ) }}">
             <img src="{{ url('images/' . $video->thumbnail . '/view') }}" alt="{{ $video->title }} thumbnail" class="img-responsive">
         </a>
     </div>
-    <div class="col-sm-7">
+    <div class="col-lg-7">
         <a href="{{ url('videos/' . $video->uid ) }}">{{ $video->title }}</a>
         @if($video->description)
             <p>{{ $video->description }}</p>

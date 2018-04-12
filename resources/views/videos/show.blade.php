@@ -8,9 +8,9 @@
                     <div class="alert alert-info">
                         your video is currently private. only you can see it.
                     </div>
-                    <video-player video-uid="{{ $video->uid }}" video-url="{{ url('videos/' . $video->video_filename . '/view') }}" thumbnail-url="{{ url('images/' . 'defaultChannelImage.png' . '/view') }}" store-view-url="{{ url('videos/' . $video->uid . '/view') }}"></video-player>
+                    <video-player video-uid="{{ $video->uid }}" video-url="{{ url('videos/' . $video->video_filename . '/view') }}" thumbnail-url="{{ url('images/' . 'defaultThumbnail.png' . '/view') }}" store-view-url="{{ url('videos/' . $video->uid . '/view') }}"></video-player>
                 @elseif( $video->isProcessed() && $video->canBeAccessed(Auth::user()) )
-                    <video-player video-uid="{{ $video->uid }}" video-url="{{ url('videos/' . $video->video_filename . '/view') }}" thumbnail-url="{{ url('images/' . 'defaultChannelImage.png' . '/view') }}" store-view-url="{{ url('videos/' . $video->uid . '/view') }}"></video-player>
+                    <video-player video-uid="{{ $video->uid }}" video-url="{{ url('videos/' . $video->video_filename . '/view') }}" thumbnail-url="{{ url('images/' . 'defaultThumbnail.png' . '/view') }}" store-view-url="{{ url('videos/' . $video->uid . '/view') }}"></video-player>
                 @else
                         <div class="video-placeholder">
                             <div class="video-placeholder__header">
@@ -52,7 +52,7 @@
                 <div class="card">
                     <div class="card-body">
                         @if($video->commentsAllowed())
-                            <video-comments get-comments-url="{{ url('videos/' . $video->uid . '/comments') }}"></video-comments>
+                            <video-comments get-comments-url="{{ url('videos/' . $video->uid . '/comments') }}" uid="{{ $video->uid }}"></video-comments>
                         @else
                             <p>comments are disabled for this video</p>
                         @endif
