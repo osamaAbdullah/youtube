@@ -36,7 +36,7 @@ class CreateNewComment implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('videos' . $this->uid);
+        return new PrivateChannel('videos' . $this->uid);
     }
 
     public function broadcastWith ()

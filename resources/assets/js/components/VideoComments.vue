@@ -155,7 +155,8 @@
                 });
             },
             listen () {
-                Echo.channel('videos' + this.uid)
+                console.log('changes saved');
+                Echo.private('videos' + this.uid)
                     .listen('CreateNewComment', (response) => {
                         if (response.data.ReplyId === null ) {
                             this.comments.unshift(response.data);
