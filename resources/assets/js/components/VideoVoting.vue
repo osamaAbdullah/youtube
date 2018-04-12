@@ -38,7 +38,8 @@
                       this.userVote = response.data.data.userVote ;
                       this.canVote = response.data.data.canVote ;
               }).catch(error => {
-
+                  alert('Something went wrong while getting votes');
+                  console.log(error);
               });
             },
             vote (type) {
@@ -65,7 +66,8 @@
                 axios.post(this.getVotesUrl.replace('votes','vote/store'), {
                     type: type,
                 }).then().catch(error => {
-                    alert(error);
+                    alert('Something went wrong while deleting your vote');
+                    console.log(error);
                 });
             },
         }

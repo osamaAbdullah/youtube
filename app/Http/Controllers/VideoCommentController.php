@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CreateNewComment;
 use App\Http\Requests\createCommentRequest;
 use App\Models\Comment;
 use App\Models\Video;
@@ -29,6 +30,8 @@ class VideoCommentController extends Controller
             'reply_id' => $request->get('reply_id', null),
             'user_id' => $request->user()->id,
         ]);
+        //event(new CreateNewComment($comment, $video->uid)); event will be triggered for all including ur self
+        broadcast(new CreateNewComment($comment, $video->uid))->toOthers();
         return response()->json(
             fractal()->item($comment)
             ->parseIncludes(['channel', 'replies'])

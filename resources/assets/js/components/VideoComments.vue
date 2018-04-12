@@ -73,7 +73,8 @@
                   .then(response => {
                       this.comments = response.data.data ;
                   }).catch(error => {
-                      alert(error);
+                  alert('Something went wrong while getting comments');
+                  console.log(error);
               });
             },
             createComment ()
@@ -84,7 +85,10 @@
                 }).then(response => {
                     this.comments.unshift(response.data.data);
                     this.body = null ;
-                }).catch();
+                }).catch(error => {
+                    alert('Something went wrong while saving your comment');
+                    console.log(error);
+                });
             },
             createReply (commentId)
             {
@@ -101,7 +105,10 @@
                         });
                         this.replyBody = null ;
                         this.replyFormVisible = null ;
-                    }).catch();
+                    }).catch(error => {
+                        alert('Something went wrong while saving your reply');
+                        console.log(error);
+                    });
             },
             toggleReplyForm (commentId)
             {
@@ -145,10 +152,24 @@
                     alert('Something went wrong while deleting comment in the backend');
                     console(error);
                 });
-            }
+            },
+            listen () {
+                Echo.channel('videos' + '15ace85ac7573b')
+                    .listen('CreateNewComment', (response) => {
+                        if (response.data.ReplyId === null ) {
+                            this.comments.unshift(response.data);
+                        } else {
+                            this.comments.map((comment, index) => {
+                                if (comment.id === response.data.ReplyId )
+                                    this.comments[index].replies.data.push(response.data);
+                            });
+                        }
+                    })
+            },
         },
-        created () {
+        mounted () {
             this.getComments();
+            this.listen();
         }
     }
 </script>
