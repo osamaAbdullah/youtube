@@ -41,7 +41,7 @@
                            <a :href="reply.channel.data.slug">{{ reply.channel.data.name }}</a>&nbsp; {{ reply.created_at_human }}
                            <p>{{ reply.body }} </p>
                            <ul class="list-inline">
-                               <li v-if="$root.id === comment.user_id">
+                               <li v-if="$root.id === reply.user_id">
                                    <a href="#" @click.prevent="deleteComment(reply.id)" class="btn btn-sm btn-default">Delete</a>
                                </li>
                            </ul>
