@@ -14,8 +14,6 @@
     {
         props: {
             videoUid: null,
-            getVotesUrl: null,
-
         },
         data () {
             return {
@@ -23,7 +21,6 @@
                 down: null,
                 userVote: null,
                 canVote: false,
-
             };
         },
         mounted () {
@@ -31,7 +28,7 @@
         },
         methods: {
             getVotes () {
-              axios.get(this.getVotesUrl)
+              axios.get(this.$root.url +'videos/' + this.videoUid + '/votes')
                   .then(response => {
                       this.up = response.data.data.up ;
                       this.down = response.data.data.down ;
@@ -43,30 +40,36 @@
               });
             },
             vote (type) {
-                if (this.userVote === type) {
-                    this[type]--;
-                    this.userVote = null;
-                    this.deleteVote();
+                if (this.$root.authenticated) {
+                    if (this.userVote === type) {
+                        this[type]--;
+                        this.userVote = null;
+                        this.deleteVote();
+                        return null;
+                    }
+                    else if (this.userVote) {
+                        this[type == 'up' ? 'down' : 'up']--;
+                    }
+                    this[type]++;
+                    this.userVote = type ;
+                    this.createVote(type);
+                } else {
+                    alert('You must login to vote');
                     return null;
                 }
-                else if (this.userVote) {
-                    this[type == 'up' ? 'down' : 'up']--;
-                }
-                this[type]++;
-                this.userVote = type ;
-                this.createVote(type);
             },
-            deleteVote ()
-            {
-                axios.delete(this.getVotesUrl.replace('votes','vote/delete'));
-                console.log('deleted');
+            deleteVote () {
+                axios.delete(this.$root.url +'videos/' + this.videoUid + '/vote/delete')
+                    .catch(error => {
+                        alert('Something went wrong while deleting your vote');
+                        console.log(error);
+                    });
             },
-            createVote (type)
-            {
-                axios.post(this.getVotesUrl.replace('votes','vote/store'), {
+            createVote (type) {
+                axios.post(this.$root.url +'videos/' + this.videoUid + '/vote/store', {
                     type: type,
-                }).then().catch(error => {
-                    alert('Something went wrong while deleting your vote');
+                }).catch(error => {
+                    alert('Something went wrong while saving your vote');
                     console.log(error);
                 });
             },

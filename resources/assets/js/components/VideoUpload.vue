@@ -7,10 +7,9 @@
                     <div class="card-body">
                         <input type="file" name="video" id="video" @change="fileInputChange" v-if="!uploading">
                         <div class="alert alert-danger" role="alert" v-if="failed">Something went wrong. please try again</div>
-                        <div class="alert alert-info" role="alert" v-if="!uploadComplete && uploading && !uploadComplete && !failed">Video will be available at <a
-                                :href="$root.url + 'videos/' + uid" target="_blank">{{ $root.url }}/videos/{{ uid }}</a></div>
+                        <div class="alert alert-info" role="alert" v-if="!uploadComplete && uploading && !uploadComplete && !failed">Video will be available at <a :href="videoUrl" target="_blank">{{ videoUrl }}</a></div>
                         <div class="alert alert-success" role="alert" v-if="uploadComplete">Upload complete. Video is now is processing
-                            <a :href="$root.url + 'videos/' + uid"> Go to your video</a>.</div>
+                            <a :href="videoUrl"> Go to your video</a>.</div>
                         <div id="video-form" v-if="uploading && !failed">
                             <br>
                             <div class="progress" v-if="!uploadComplete">
@@ -45,57 +44,54 @@
 <script>
     export default
     {
-        props: {
-            storeInDatabaseUrl: null,
-            uploadToServerUrl: null,
-            updateUrl: null,
-        },
         methods:{
           fileInputChange () {
               this.uploading = true ;
               this.failed = false ;
               this.file = document.getElementById('video').files[0] ;
-
               this.storeVideo().then( () => {
                   let formData = new FormData();
                   formData.append('video', this.file);
                   formData.append('uid', this.uid);
                   axios({
                       method: 'post',
-                      url: this.uploadToServerUrl,
-                      maxContentLength: 100000,
+                      url: this.$root.url + 'video/upload',
                       data: formData,
                       onUploadProgress: (e) => {
                           if (e.lengthComputable) {
                               this.updateProgress(e);
                           }
                       },
-                  }).then( () => {
+                  }).then(() => {
                       this.uploadComplete = true ;
-                  }).catch( () => {
+                  }).catch((error) => {
                       this.failed = true ;
+                      alert('Uploading failed');
+                      console.log(error);
                   });
               });
-
           },
             storeVideo () {
                 return axios({
                                 method: 'post',
-                                url:    this.storeInDatabaseUrl,
+                                url:    this.$root.url + 'video/store',
                                 data: {
                                     title:       this.title,
                                     description: this.description,
                                     visibility:  this.visibility,
                                     extension:   this.file.name.split('.').pop()
                                 }
-                            }).then( response => {
+                            }).then(response => {
                                 this.uid = response.data.data.uid ;
-                            }).catch( () => {
+                                this.videoUrl = this.$root.url + 'videos/' + this.uid + '/show';
+                            }).catch((error) => {
                                 this.failed = true ;
+                                alert('Something went wrong while saving video\'s properties');
+                                console.log(error);
                             });
             },
             update () {
-              axios.put(this.updateUrl.replace('%uid%',this.uid), {
+              axios.put(this.$root.url + 'videos/' + this.uid + '/update', {
                   title: this.title,
                   description: this.description,
                   visibility: this.visibility
@@ -104,15 +100,15 @@
                   setTimeout(() => {
                       this.saveStatus = null ;
                   }, 3000);
-              }).catch( () => {
-                  this.failed = true ;
+              }).catch( (error) => {
+                  alert('Something went wrong while updating the video');
+                  console.log(error);
               });
             },
             updateProgress (e) {
               e.percent = (e.loaded / e.total) * 100 ;
               this.fileProgress = e.percent ;
             }
-
         },
         data () {
             return {
@@ -125,6 +121,7 @@
                 uid: null,
                 saveStatus: null,
                 fileProgress: 0,
+                videoUrl: null,
             };
         },
         mounted () {

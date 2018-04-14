@@ -16,7 +16,7 @@ class ChannelTransformer extends TransformerAbstract
 
         return [
             'name' => $channel->name,
-            'slug' => url('channels/' . $channel->slug . '/show'),
+            'channelUrl' => url('channels/' . $channel->slug . '/show'),
             'image' => url('images/' . $channel->image . '/view'),
         ];
     }

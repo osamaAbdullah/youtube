@@ -1,6 +1,6 @@
 <template>
-    <video id="video" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9" controls preload="auto" data-setup='{"fluid": true, "preload": "auto"}' v-bind:poster="thumbnailUrl">
-        <source type="video/mp4" v-bind:src="videoUrl"></source>
+    <video id="video" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9" controls preload="auto" data-setup='{"fluid": true, "preload": "auto"}' :poster="thumbnailUrl">
+        <source type="video/mp4" :src="videoUrl">
     </video>
 </template>
 
@@ -13,24 +13,32 @@
             return {
                 player: null,
                 duration: 0,
+                rootUrl: null,
+                viewed: false,
             }
         },
         mounted () {
-            this.payer = videojs('video') ;
+            this.rootUrl = this.$root.url;
+            this.payer = videojs('video');
             this.payer.on('loadedmetadata', () => {
-                this.duration = Math.round(this.payer.duration()) ;
+                this.duration = Math.round(this.payer.duration());
             });
             setInterval(() => {
-                if (this.hasHitQuotaView()) {
-                    this.storeView();
+                if (!this.viewed) {
+                    if (this.hasHitQuotaView()) {
+                        this.storeView();
+                        this.viewed = true;
+                    }
+                } else {
+                    return null;
                 }
+
             }, 1000);
         },
         props: {
-            videoId: null,
+            uid: null,
             videoUrl: null,
             thumbnailUrl: null,
-            storeViewUrl: null,
         },
         methods: {
             hasHitQuotaView () {
@@ -42,12 +50,10 @@
             storeView () {
                 axios({
                     method: 'post',
-                    url: this.storeViewUrl,
-                }).then(() => {
-
-                }).catch((error) =>{
+                    url: this.rootUrl + 'videos/' + this.uid + '/view/store',
+                }).catch((error) => {
                     alert('Something went wrong while saving the view');
-                    console.log(error)
+                    console.log(error);
                 });
                 //another way of doing this
                 // axios.post(this.storeViewUrl)
