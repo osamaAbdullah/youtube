@@ -8,7 +8,7 @@ use Laravel\Scout\Searchable;
 class Channel extends Model
 {
 
-    use Searchable;
+//    use Searchable;
 
     protected $fillable =[
         'name',
