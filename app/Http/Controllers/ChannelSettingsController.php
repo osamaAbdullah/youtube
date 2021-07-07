@@ -33,7 +33,7 @@ class ChannelSettingsController extends Controller
 
 
         Session::flash('success', 'The Channel was successfully updated');
-        return redirect()->to(url('/channels/' . $channel->slug . '/edit'));
+        return redirect(url('/channels/' . $channel->slug . '/show'));
         //die('update');
     }
 }

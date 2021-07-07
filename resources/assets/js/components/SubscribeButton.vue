@@ -9,9 +9,10 @@
     export default
     {
         props: {
-          channelUrl: null,
+          channelSlug: null,
         },
         mounted () {
+            this.rootUrl = this.$root.url;
             this.getSubscriptionStatus ();
         },
         data () {
@@ -19,11 +20,12 @@
                 subscribers: null,
                 userSubscribed: false,
                 canSubscribe: false,
+                rootUrl: null,
             };
         },
         methods: {
             getSubscriptionStatus () {
-                axios.get(this.channelUrl.replace('show', 'subscriptions'))
+                axios.get(this.rootUrl + 'channels/' + this.channelSlug + '/subscriptions')
                     .then(response => {
                         this.subscribers = response.data.count ;
                         this.userSubscribed = response.data.isSubscribed ;
@@ -33,35 +35,27 @@
                         console.log(error);
                 });
             },
-            handle ()
-            {
+            handle () {
                 if (this.userSubscribed) {
                     this.unsubscribe();
                 } else {
                     this.subscribe();
                 }
             },
-            subscribe ()
-            {
+            subscribe () {
                 this.userSubscribed = true ;
                 this.subscribers++ ;
-                console.log(this.channelUrl.replace('show', 'subscriptions/store'));
-                axios.post(this.channelUrl.replace('show', 'subscriptions/store'))
-                    .then(response => {
-
-                }).catch(error => {
+                axios.post(this.rootUrl + 'channels/' + this.channelSlug + '/subscriptions/store')
+                   .catch(error => {
                     alert('Something went wrong while saving your subscription');
                     console.log(error);
                 });
             },
-            unsubscribe ()
-            {
+            unsubscribe ()  {
                 this.userSubscribed = false ;
                 this.subscribers-- ;
-                axios.delete(this.channelUrl.replace('show', 'subscriptions/delete'))
-                    .then(response => {
-
-                    }).catch(error => {
+                axios.delete(this.rootUrl + 'channels/' + this.channelSlug + '/subscriptions/delete')
+                    .catch(error => {
                     alert('Something went wrong while deleting your subscription');
                     console.log(error);
                 });

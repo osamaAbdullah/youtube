@@ -51,7 +51,7 @@
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label>Image</label>
-                                        <input id="image" type="file" class="form-control{{ $errors->has('image') ? ' is-invalid' : '' }}" name="image" value="{{ $channel->image }}" required autofocus>
+                                        <input id="image" type="file" class="form-control{{ $errors->has('image') ? ' is-invalid' : '' }}" name="image" value="{{ $channel->image }}" autofocus>
                                     @if ($errors->has('image'))
                                         <span class="invalid-feedback">
                                         <strong>{{ $errors->first('image') }}</strong>

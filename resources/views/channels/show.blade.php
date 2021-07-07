@@ -14,7 +14,7 @@
                                {{ $channel->name }}
                                <ul class="list-inline">
                                    <li class="list-inline-item">
-                                       <subscribe-button channel-url="{{ url('channels/' . $channel->slug .'/show') }}"></subscribe-button>
+                                       <subscribe-button channel-slug="{{ $channel->slug }}"></subscribe-button>
                                    </li>
                                    <li class="list-inline-item">
                                        {{ $channel->totalVideoViews() }} video {{ str_plural('View', $channel->totalVideoViews()) }}

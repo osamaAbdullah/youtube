@@ -38,7 +38,7 @@ class VideoVoteController extends Controller
         return response()->make(null, 200);
     }
 
-    public function show (Request $request, Video $video)
+    public function get (Request $request, Video $video)
     {
         $response = [
             'up' => null,

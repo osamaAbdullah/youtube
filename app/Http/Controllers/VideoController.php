@@ -47,7 +47,7 @@ class VideoController extends Controller
             return response()->json(null,200);
         }
         Session::flash('success', 'The Channel was successfully updated');
-        return redirect()->back();
+        return redirect(url('videos/' . $video->uid . '/show'));
     }
 
     public function store (VideoStoreRequest $request)

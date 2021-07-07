@@ -10,7 +10,8 @@ use Laravel\Scout\Searchable;
 class Video extends Model
 {
     //laravel traits
-    use SoftDeletes, Searchable, Orderable;
+//    use SoftDeletes, Searchable, Orderable;
+    use SoftDeletes, Orderable;
 
     protected $fillable = [
         'title',
