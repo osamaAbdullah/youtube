@@ -6,7 +6,7 @@ use App\Models\Channel;
 use App\Models\Video;
 use Illuminate\Http\Request;
 
-class searchController extends Controller
+class SearchController extends Controller
 {
     public function index (Request $request)
     {
@@ -14,8 +14,9 @@ class searchController extends Controller
         if (!$request->term) {
             return redirect()->back();
         }
-        $channels = Channel::search('osama', null)->get();
-        $videos = Video::search($request->term)->where('public', true)->get();
+
+        $channels = Channel::where('name', 'like', '%'. $request->term .'%')->get();
+        $videos = Video::where('title', 'like', '%'. $request->term .'%')->orWhere('description', 'like', '%'. $request->term .'%')->where('visibility', 'public')->get();
 
         return view('search.index',[
             'channels' => $channels,

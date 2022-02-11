@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\CreateNewComment;
-use App\Http\Requests\createCommentRequest;
+
+use App\Http\Requests\CreateCommentRequest;
 use App\Models\Comment;
 use App\Models\Video;
 use App\Transformers\CommentTransformer;
